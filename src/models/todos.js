@@ -49,6 +49,4 @@ export default {
   })),
 
   clearCompleted: state => state.filter(todo => !todo.completed),
-
-
 }
