@@ -1,7 +1,6 @@
 import uuid from 'uuid/v1'
 import { REHYDRATE } from 'redux-persist/constants'
 
-
 export default {
   namespace: 'todos',
   state: [],
