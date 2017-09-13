@@ -1,6 +1,6 @@
 # mickey-todo
 
-> Simple Todo application with mickey
+> Simple Todo application build with mickey
 
 [![MIT License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat-square)](https://github.com/mickey/mickey-todo/blob/master/LICENSE)
 
