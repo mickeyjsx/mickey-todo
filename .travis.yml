@@ -1,29 +1,33 @@
 language: node_js
 node_js:
-  - "6"
-  - "7"
-
+  - '6'
+  - '7'
 cache:
   directories:
     - node_modules
 
 install: npm install
 
+before_script:
+  - git config --global user.name  "bubkoo"
+  - git config --global user.email "bubkoo.wy@gmail.com"
+  - git config --global push.default simple
+  - git clone https://${GH_TOKEN}@${GH_REF} ${DIR}
+
 script:
   - npm run lint
   - npm run build
-
-after_success:
-  - git config --global user.name  "bubkoo"
-  - git config --global user.email "bubkoo.wy@gmail.com"
-  - git clone https://${GH_TOKEN}@${GH_REF} ${REPO_NAME}
-  - cd ${REPO_NAME} && rm -rf ${TARGET_DIR} && mkdir ${TARGET_DIR} && cd ../
-  - cp -PR dist/* ${REPO_NAME}/${TARGET_DIR}
-  - cd ${REPO_NAME} && git add -A && git commit -m "update by travis-ci"
-  - git push "https://${GH_TOKEN}@${GH_REF}" master:master
+  - cd ${DIR} && git pull && cd ../
+  - cp -PR dist/* ${DIR}/${TAR}
+  - cd ${DIR}
+  - git add -A .
+  - MESSAGE=` date +\ %Y-%m-%d\ %H:%M:%S`
+  - git commit -m "Updated by travis-ci:${MESSAGE}"
+  - git push
 
 env:
   global:
-    - REPO_NAME: site
-    - TARGET_DIR: vstar
+    - DIR: site
+    - TAR: todo
     - GH_REF: github.com/mickeyjsx/mickeyjsx.github.com.git
+    - secure: 5MaZeO71Tq+ENlYr/HvzD6UhBXH6pGs9jQyW2XqJHA7/REJMVbZnEYBLE80DLtKcS0mLmBN4sTiHkHKpR88xTmafDMLkXlG8TQ/ao/Sh9NTRleIqMWlSwypIUpM/PqlLYCgj3IJRZp2FMm0zkwkJf0lWs9HqQlZIWOUlkWgl4VRAgP7+Ky/ln1Qqg0qHZ0lxrqhqv0GCqBpkhN+IB+TqttY08gufHb0QL7Z9Nem6F7L7ick0sYWfsN/tSvtq6K7n4O/+CR+aMYR+JfV5X8l/njxG5sCSXKvO/kDe+DgNU7r/trhsOYWh/jOS4fe1jGsSjJO2txQxIm+zevwrJKulx7Nvv8zvFYc00nfRZ8ZBjwnOLcnF2abX8aZOdztFZRYrHy9WK85JFKwmqgHET8wZxc5lIyNf+jAV6Ju15DyxotNlY68t1/gG/bMr8qb9cCjdL5TaXNtvmSV142fndaHChPB1HGdGiX1GOk7utWB91XHN32cFppvw1RE79/E8XrjGbin0lbFw8DjMP385udnUZyreTlK9pIJkmnSTR/+IFrfRmdb5V3SfYeT6cdZYrf4IDNATte28d/d/D5ocM9hptaKDH6soUTcml2QHIQiYeS83Pax0qorDAhY9njX5YfCEsqujrJBA9lLE1ie2Qeudg983PYO3zhrjCccJbXvWwZg=
